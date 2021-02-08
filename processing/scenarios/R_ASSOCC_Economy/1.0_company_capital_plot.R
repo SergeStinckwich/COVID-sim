@@ -18,34 +18,34 @@ plotEcoCompanyCapital <- function(df_economy, output_dir, one_plot) {
   # Add days converted from ticks
   #df_economy$day <- dmfConvertTicksToDay(df_economy$tick)  
   
-  # df_people_captial <- df_economy %>% select(tick, run_number, preset_scenario,
+  # df_people_captial <- df_economy %>% select(tick, run_number, Scenario,
   #                                      workers = workers_average_amount_of_capital,
   #                                      retired = retirees_average_amount_of_capital,
   #                                      students = students_average_amount_of_capital)
   
-  df_essential_shop_captial <- df_economy %>% select(tick, run_number, preset_scenario,
+  df_essential_shop_captial <- df_economy %>% select(tick, run_number, Scenario,
                                               capital = essential_shop_amount_of_capital,
   )
   
-  df_essential_shop_mean_std <- df_economy %>% group_by(tick, preset_scenario) %>% summarise(tick, preset_scenario,
+  df_essential_shop_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
                                                                                       mean_capital = mean(essential_shop_amount_of_capital)
                                                                                       ,std_mean_capital = sd(essential_shop_amount_of_capital)
   )
   
-  df_non_essential_shop_captial <- df_economy %>% select(tick, run_number, preset_scenario,
+  df_non_essential_shop_captial <- df_economy %>% select(tick, run_number, Scenario,
                                               capital = non_essential_shop_amount_of_capital,
   )
   
-  df_non_essential_shop_mean_std <- df_economy %>% group_by(tick, preset_scenario) %>% summarise(tick, preset_scenario,
+  df_non_essential_shop_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
                                                                                       mean_capital = mean(non_essential_shop_amount_of_capital)
                                                                                       ,std_mean_capital = sd(non_essential_shop_amount_of_capital)
   )
   
-  # df_workplace_captial <- df_economy %>% select(tick, run_number, preset_scenario,
+  # df_workplace_captial <- df_economy %>% select(tick, run_number, Scenario,
   #                                              students = students_average_amount_of_capital,
   # )
   # 
-  # df_students_mean_std <- df_economy %>% group_by(tick, preset_scenario) %>% summarise(tick, preset_scenario,
+  # df_students_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
   #                                                                                      mean_capital = mean(students_average_amount_of_capital)
   #                                                                                      ,std_mean_capital = sd(students_average_amount_of_capital)
   # )
@@ -100,15 +100,16 @@ plot_ggplot <- function(data_to_plot, type_of_people) {
   data_to_plot %>%
     ggplot(aes(x = tick, 
                y = mean_capital)) +
-    geom_line(size=0.5,alpha=0.8,aes(color=preset_scenario, group = preset_scenario)) +
+    geom_line(size=2,alpha=0.8,aes(color=Scenario, group = Scenario)) +
     #geom_errorbar(aes(ymin = mean_capital - std_mean_capital, ymax = mean_capital + std_mean_capital,
-    #                  color=preset_scenario, group = preset_scenario)) +
+    #                  color=Scenario, group = Scenario)) +
     #continues_colour_brewer(palette = "Spectral", name="Infected") +
     xlab("Ticks") +
     ylab("Capital") + 
     labs(title=paste("Average", type_of_people, "capital", sep = " "),
          subtitle=paste("Average capital of", type_of_people, sep = " "), 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }
 
@@ -118,14 +119,15 @@ plot_ggplot_smooth <- function(data_to_plot, type_of_people) {
   data_to_plot %>%
     ggplot(aes(x = tick, 
                y = mean_capital)) +
-    geom_smooth(aes(col=preset_scenario), span=0.1, se=FALSE) +
+    gl_plot_smooth +
     geom_ribbon(aes(ymin = mean_capital - std_mean_capital, ymax = mean_capital + std_mean_capital,
-                    color= preset_scenario), alpha=0.1) +
+                    color= Scenario), alpha=0.025) +
     #scale_colour_brewer(palette = "Spectral", name="Infected") +
     xlab("Ticks") +
     ylab("Capital") + 
     labs(title=paste("Average", type_of_people, "capital", sep = " "),
          subtitle=paste("Average capital of", type_of_people, "(smoothed)", sep = " "), 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }

@@ -50,7 +50,7 @@ source("0.1 dataframe_functions.r")
 filesPath <- ""
 
 #=================== MANUAL INPUT: specify filenames ====================
-dataFileName <- c("covid-sim economy-table_17-11-2020.csv")
+dataFileName <- c("covid-sim economy-table_5_12_2020_420.csv")
 filesNames   <- dataFileName
 
 #=============================================================
@@ -74,6 +74,7 @@ old_variable_names <- names(df_clean)
 df_renamed <- updateColumnNames(df_clean)
 
 colnames(df_renamed)[match("step", colnames(df_renamed))] = "tick";
+colnames(df_renamed)[match("preset_scenario", colnames(df_renamed))] = "Scenario";
 
 df_names_compare <- data.frame("new" = names(df_renamed), "old" = old_variable_names)
 print("Renamed the dateframe, please check the df_names_compare dataframe for correct column translation")
@@ -104,9 +105,21 @@ p_df_full         <- df_renamed %>% select(run_number:tick, -random_seed)
 p_df_removed_runs <- df_renamed_infected_and_unfinished_remove %>% select(run_number:tick, -random_seed)
 df_included_runs_report  <- dlfCreateIncludedRunsReport(p_df_full, p_df_removed_runs)
 
+#========================== Rename data for ease of use ==========================
+
+
+df_economy$Scenario <- as.character(df_economy$Scenario)
+df_economy$Scenario[df_economy$Scenario == "economic-scenario-1-baseline"] <- "1-baseline"
+df_economy$Scenario[df_economy$Scenario == "economic-scenario-2-infections"] <- "2-infections"
+df_economy$Scenario[df_economy$Scenario == "economic-scenario-3-lockdown"] <- "3-lockdown"
+df_economy$Scenario[df_economy$Scenario == "economic-scenario-4-wages"] <- "4-lockdown-wages"
+
+df_economy$Scenario <- as.factor(df_economy$Scenario)
+
 #========================== Clean up variables ==========================
 rm(list = c("df", "df_clean", "df_renamed", "old_variable_names", "p_df_full", 
             "df_renamed_infected_and_unfinished_remove", "df_renamed_infected_remove", "p_df_removed_runs"))
+
 
 
 #=============================================================
@@ -133,14 +146,24 @@ plotAllPlots <- function() {
   source("1.0_Lockdown_plot.r")
   plotEcoLockdown(df_economy, output_dir, one_plot)
   
+  source("1.0_quality_of_life_plot.r")
+  plotEcoQualityOfLife(df_economy, output_dir, one_plot)
+  
   source("1.0_people_capital_plot.r")
   plotEcoPeopleCapital(df_economy, output_dir, one_plot)
   
   source("1.0_people_capital_std_plot.r")
   plotEcoPeopleStdCapital(df_economy, output_dir, one_plot)
   
+  source("1.0_poverty_plot.r")
+  plotEcoPoverty(df_economy, output_dir, one_plot)
+  
   source("1.0_company_capital_plot.r")
   plotEcoCompanyCapital(df_economy, output_dir, one_plot)
+  
+  #Companies out of capital
+  source("1.0_company_out_of_capital_plot.r")
+  plotEcoCompanyOutOfCaptial(df_economy, output_dir, one_plot)
   
   source("1.0_company_goods_plot.r")
   plotEcoCompanyGoods(df_economy, output_dir, one_plot)
@@ -156,8 +179,6 @@ plotAllPlots <- function() {
   
   source("1.0_government_capital_plot.r")
   plotEcoGovernmentCapital(df_economy, output_dir, one_plot)
-  
-  #QoL
   
   #Activities
   
@@ -181,8 +202,24 @@ plotAllPlots <- function() {
 one_plot <- TRUE
 
 # Adjust names, theme and the scales of the plots
-gl_plot_guides <- guides(colour = guide_legend(override.aes = list(size=5, alpha=1)))
-gl_plot_theme  <-  theme_bw()
+#gl_plot_guides <- guides(colour = guide_legend(override.aes = list(size=5, alpha=1)))
+#still figure out how to improve guides
+gl_plot_guides <- guides()
+
+gl_plot_colours <- c('#391c1c', '#16727e', '#de9236', '#cedecb')
+
+gl_plot_theme  <-  theme_bw() + theme(legend.position="bottom",
+                                      axis.text = element_text(size = rel(1.3)),
+                                      axis.title = element_text(size = rel(1.3)),
+                                      legend.text = element_text(size = rel(1.2)),
+                                      legend.title = element_text(size = rel(1.2)),
+                                      title = element_text(size = rel(1.3)) )
+
+gl_plot_line <- geom_line(size=2,alpha=0.8,aes(color=Scenario, group = run_number))
+gl_plot_smooth <- geom_smooth(aes(col=Scenario), span=0.25, se=FALSE, size=2)
+gl_plot_ribbon_minmax <- geom_ribbon(aes(ymin = min, ymax = max, color= Scenario), alpha=0.025)  
+gl_plot_ribbon_std <- geom_ribbon(aes(ymin = mean - std, ymax = mean + std, color= Scenario), alpha=0.025)  
+
 
 # Specify the independent variable, the variable to separate the data on
 plotAllPlots()

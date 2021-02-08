@@ -18,34 +18,34 @@ plotEcoPeopleStdCapital <- function(df_economy, output_dir, one_plot) {
   # Add days converted from ticks
   #df_economy$day <- dmfConvertTicksToDay(df_economy$tick)  
   
-  # df_people_captial <- df_economy %>% select(tick, run_number, preset_scenario,
+  # df_people_captial <- df_economy %>% select(tick, run_number, Scenario,
   #                                      workers = workers_average_amount_of_goods,
   #                                      retired = retirees_average_amount_of_goods,
   #                                      students = students_average_amount_of_goods)
   
-  df_workers_capital_std <- df_economy %>% select(tick, run_number, preset_scenario,
+  df_workers_capital_std <- df_economy %>% select(tick, run_number, Scenario,
                                                    capitalstd = standard_deviation_my_amount_of_capital_of_workers,
   )
   
-  df_workers_capital_std_mean_std <- df_economy %>% group_by(tick, preset_scenario) %>% summarise(tick, preset_scenario,
+  df_workers_capital_std_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
                                                                                              mean_capital_std = mean(standard_deviation_my_amount_of_capital_of_workers)
                                                                                              ,std_mean_capital_std = sd(standard_deviation_my_amount_of_capital_of_workers)
   )
   
-  df_students_capital_std <- df_economy %>% select(tick, run_number, preset_scenario,
+  df_students_capital_std <- df_economy %>% select(tick, run_number, Scenario,
                                                        capital_std = standard_deviation_my_amount_of_capital_of_students,
   )
   
-  df_students_capital_std_mean_std <- df_economy %>% group_by(tick, preset_scenario) %>% summarise(tick, preset_scenario,
+  df_students_capital_std_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
                                                                                                  mean_capital_std = mean(standard_deviation_my_amount_of_capital_of_students)
                                                                                                  ,std_mean_capital_std = sd(standard_deviation_my_amount_of_capital_of_students)
   )
   
-  df_retired_capital_std <- df_economy %>% select(tick, run_number, preset_scenario,
+  df_retired_capital_std <- df_economy %>% select(tick, run_number, Scenario,
                                               capital_std = standard_deviation_my_amount_of_capital_of_retireds,
   )
   
-  df_retired_capital_std_mean_std <- df_economy %>% group_by(tick, preset_scenario) %>% summarise(tick, preset_scenario,
+  df_retired_capital_std_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
                                                                                         mean_capital_std = mean(standard_deviation_my_amount_of_capital_of_retireds)
                                                                                         ,std_mean_capital_std = sd(standard_deviation_my_amount_of_capital_of_retireds)
   )
@@ -100,15 +100,15 @@ plot_ggplot <- function(data_to_plot, type_of_people) {
   data_to_plot %>%
     ggplot(aes(x = tick, 
                y = mean_capital_std)) +
-    geom_line(size=0.5,alpha=0.8,aes(color=preset_scenario, group = preset_scenario)) +
+    geom_line(size=2,alpha=0.8,aes(color=Scenario, group = Scenario)) +
     #geom_errorbar(aes(ymin = mean_capital_std - std_mean_capital_std, ymax = mean_capital_std + std_mean_capital_std,
-    #                  color=preset_scenario, group = preset_scenario)) +
-    #continues_colour_brewer(palette = "Spectral", name="Infected") +
+    #                  color=Scenario, group = Scenario)) +
     xlab("Ticks") +
     ylab("Standard deviation") + 
     labs(title=paste("Capital standard deviation of", type_of_people, "", sep = " "),
          subtitle=paste("Standard deviation of capital owned by ", type_of_people, sep = " "), 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }
 
@@ -118,14 +118,14 @@ plot_ggplot_smooth <- function(data_to_plot, type_of_people) {
   data_to_plot %>%
     ggplot(aes(x = tick, 
                y = mean_capital_std)) +
-    geom_smooth(aes(col=preset_scenario), span=0.1, se=FALSE) +
+    gl_plot_smooth +
     geom_ribbon(aes(ymin = mean_capital_std - std_mean_capital_std, ymax = mean_capital_std + std_mean_capital_std,
-                    color= preset_scenario), alpha=0.1) +
-    #scale_colour_brewer(palette = "Spectral", name="Infected") +
+                    color= Scenario), alpha=0.025) +
     xlab("Ticks") +
     ylab("Standard deviation") + 
     labs(title=paste("Capital standard deviation of", type_of_people, "", sep = " "),
          subtitle=paste("Standard deviation of capital owned by ", type_of_people, "(smoothed + uncertainty (std. dev.))", sep = " "), 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }

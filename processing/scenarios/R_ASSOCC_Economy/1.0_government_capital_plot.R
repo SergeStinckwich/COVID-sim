@@ -13,10 +13,10 @@ plotEcoGovernmentCapital <- function(df_economy, output_dir, one_plot) {
   
   # CONTACTS PER GATHERING POINT PER APP USAGE SCENARIO ----------------------------
   
-  df_government_capital <- df_economy %>% select(tick, run_number, preset_scenario, government_capital = government_reserve_of_capital)
+  df_government_capital <- df_economy %>% select(tick, run_number, Scenario, government_capital = government_reserve_of_capital)
   
-  df_government_capital_mean_std <- df_economy %>% group_by(tick, preset_scenario) %>%
-    summarise(tick, preset_scenario,
+  df_government_capital_mean_std <- df_economy %>% group_by(tick, Scenario) %>%
+    summarise(tick, Scenario,
               mean = mean(government_reserve_of_capital)
               ,std = sd(government_reserve_of_capital)
     )
@@ -56,16 +56,17 @@ plot_ggplot <- function(data_to_plot) {
   data_to_plot %>%
     ggplot(aes(x = tick, 
                y = measurement)) +
-    #geom_smooth(aes(col=preset_scenario), span=0.1, se=FALSE) +
-    geom_line(size=1,alpha=0.8,aes(color=preset_scenario, group = run_number)) +
+    #geom_smooth(aes(col=Scenario), span=0.1, se=FALSE) +
+    geom_line(size=1,alpha=0.8,aes(color=Scenario, group = run_number)) +
     #geom_errorbar(aes(ymin = mean_capital - std_mean_capital, ymax = mean_capital + std_mean_capital,
-    #                  color=preset_scenario, group = preset_scenario)) +
+    #                  color=Scenario, group = Scenario)) +
     #continues_colour_brewer(palette = "Spectral", name="Infected") +
     xlab("Ticks") +
     ylab("Capital") + 
     labs(title="Government capital",
          subtitle="Capital of the government in reserve", 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }
 
@@ -74,13 +75,14 @@ plot_ggplot_smooth <- function(data_to_plot) {
   data_to_plot %>%
     ggplot(aes(x = tick, 
                y = mean)) +
-    geom_smooth(aes(col=preset_scenario), span=0.1, se=FALSE) +
+    geom_smooth(aes(col=Scenario), span=0.1, se=FALSE) +
     #scale_colour_brewer(palette = "Spectral", name="Infected") +
     xlab("Ticks") +
     ylab("Capital") + 
     labs(title="Government capital",
          subtitle="Capital of the government in reserve (smoothed)", 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }
 
@@ -89,14 +91,15 @@ plot_ggplot_smooth_uncertainty <- function(data_to_plot) {
   data_to_plot %>%
     ggplot(aes(x = tick, 
                y = mean)) +
-    geom_smooth(aes(col=preset_scenario), span=0.1, se=FALSE) +
+    geom_smooth(aes(col=Scenario), span=0.1, se=FALSE) +
     geom_ribbon(aes(ymin = mean - std, ymax = mean + std,
-                    color= preset_scenario), alpha=0.1) +
+                    color= Scenario), alpha=0.1) +
     #scale_colour_brewer(palette = "Spectral", name="Infected") +
     xlab("Ticks") +
     ylab("Capital") + 
     labs(title="Government capital",
          subtitle="Capital of the government in reserve (smoothed + uncertainty (std. dev.)))", 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }

@@ -18,34 +18,34 @@ plotEcoPeopleWokringFor <- function(df_economy, output_dir, one_plot) {
   # Add days converted from ticks
   #df_economy$day <- dmfConvertTicksToDay(df_economy$tick)  
   
-  # df_people_captial <- df_economy %>% select(tick, run_number, preset_scenario,
+  # df_people_captial <- df_economy %>% select(tick, run_number, Scenario,
   #                                      workers = workers_average_amount_of_goods,
   #                                      retired = retirees_average_amount_of_goods,
   #                                      students = students_average_amount_of_goods)
   
-  df_workers_working_for_essential_shop <- df_economy %>% select(tick, run_number, preset_scenario,
+  df_workers_working_for_essential_shop <- df_economy %>% select(tick, run_number, Scenario,
                                                   working_for = workers_working_at_essential_shop,
   )
   
-  df_workers_working_for_essential_shop_mean_std <- df_economy %>% group_by(tick, preset_scenario) %>% summarise(tick, preset_scenario,
+  df_workers_working_for_essential_shop_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
                                                                                                   mean_working_for = mean(workers_working_at_essential_shop)
                                                                                                   ,std_mean_working_for = sd(workers_working_at_essential_shop)
   )
   
-  df_workers_working_for_non_essential_shop <- df_economy %>% select(tick, run_number, preset_scenario,
+  df_workers_working_for_non_essential_shop <- df_economy %>% select(tick, run_number, Scenario,
                                                    working_for = workers_working_at_non_essential_shop,
   )
   
-  df_workers_working_for_non_essential_shop_mean_std <- df_economy %>% group_by(tick, preset_scenario) %>% summarise(tick, preset_scenario,
+  df_workers_working_for_non_essential_shop_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
                                                                                                    mean_working_for = mean(workers_working_at_non_essential_shop)
                                                                                                    ,std_mean_working_for = sd(workers_working_at_non_essential_shop)
   )
   
-  df_workers_working_for_workplace <- df_economy %>% select(tick, run_number, preset_scenario,
+  df_workers_working_for_workplace <- df_economy %>% select(tick, run_number, Scenario,
                                                   working_for = workers_working_at_workplace,
   )
   
-  df_workers_working_for_workplace_mean_std <- df_economy %>% group_by(tick, preset_scenario) %>% summarise(tick, preset_scenario,
+  df_workers_working_for_workplace_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
                                                                                                   mean_working_for = mean(workers_working_at_workplace)
                                                                                                   ,std_mean_working_for = sd(workers_working_at_workplace)
   )
@@ -100,15 +100,16 @@ plot_ggplot <- function(data_to_plot, type_of_people) {
   data_to_plot %>%
     ggplot(aes(x = tick, 
                y = mean_working_for)) +
-    geom_line(size=0.5,alpha=0.8,aes(color=preset_scenario, group = preset_scenario)) +
+    geom_line(size=2,alpha=0.8,aes(color=Scenario, group = Scenario)) +
     #geom_errorbar(aes(ymin = mean_working_for - std_mean_working_for, ymax = mean_working_for + std_mean_working_for,
-    #                  color=preset_scenario, group = preset_scenario)) +
+    #                  color=Scenario, group = Scenario)) +
     #continues_colour_brewer(palette = "Spectral", name="Infected") +
     xlab("Ticks") +
     ylab("Workers") + 
     labs(title=paste("Workers working for", type_of_people, "", sep = " "),
          subtitle=paste("Workers working for", type_of_people, sep = " "), 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }
 
@@ -118,14 +119,15 @@ plot_ggplot_smooth <- function(data_to_plot, type_of_people) {
   data_to_plot %>%
     ggplot(aes(x = tick, 
                y = mean_working_for)) +
-    geom_smooth(aes(col=preset_scenario), span=0.1, se=FALSE) +
+    gl_plot_smooth +
     #geom_ribbon(aes(ymin = mean_working_for - std_mean_working_for, ymax = mean_working_for + std_mean_working_for,
-    #                color= preset_scenario), alpha=0.1) +
+    #                color= Scenario), alpha=0.1) +
     #scale_colour_brewer(palette = "Spectral", name="Infected") +
     xlab("Ticks") +
     ylab("Workers") + 
     labs(title=paste("Workers working for", type_of_people, "", sep = " "),
          subtitle=paste("Workers working for", type_of_people, "(smoothed)", sep = " "), 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }
