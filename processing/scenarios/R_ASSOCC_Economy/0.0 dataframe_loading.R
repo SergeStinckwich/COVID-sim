@@ -180,7 +180,9 @@ plotAllPlots <- function() {
   source("1.0_government_capital_plot.r")
   plotEcoGovernmentCapital(df_economy, output_dir, one_plot)
   
-  #Activities
+  #Contacts
+  source("1.0_contacts_plot.r")
+  plotContacts(df_economy, output_dir, one_plot)
   
   #Working
   source("1.0_Workers_Working_for_plot.r")
@@ -221,5 +223,5 @@ gl_plot_ribbon_minmax <- geom_ribbon(aes(ymin = min, ymax = max, color= Scenario
 gl_plot_ribbon_std <- geom_ribbon(aes(ymin = mean - std, ymax = mean + std, color= Scenario), alpha=0.025)  
 
 
-# Specify the independent variable, the variable to separate the data on
+# And plot the plots!
 plotAllPlots()
