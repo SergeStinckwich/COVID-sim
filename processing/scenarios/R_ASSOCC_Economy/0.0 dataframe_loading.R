@@ -149,15 +149,18 @@ plotAllPlots <- function() {
   source("1.0_quality_of_life_plot.r")
   plotEcoQualityOfLife(df_economy, output_dir, one_plot)
   
+  #TODO Make DAY graphs
   source("1.0_people_capital_plot.r")
   plotEcoPeopleCapital(df_economy, output_dir, one_plot)
   
   source("1.0_people_capital_std_plot.r")
   plotEcoPeopleStdCapital(df_economy, output_dir, one_plot)
   
+  #TODO workers day/week plot and students + retired day/week plot 
   source("1.0_poverty_plot.r")
   plotEcoPoverty(df_economy, output_dir, one_plot)
   
+  #TODO  capital of workplaces
   source("1.0_company_capital_plot.r")
   plotEcoCompanyCapital(df_economy, output_dir, one_plot)
   
@@ -165,6 +168,7 @@ plotAllPlots <- function() {
   source("1.0_company_out_of_capital_plot.r")
   plotEcoCompanyOutOfCaptial(df_economy, output_dir, one_plot)
   
+  #TODO make day graph for workplace stock
   source("1.0_company_goods_plot.r")
   plotEcoCompanyGoods(df_economy, output_dir, one_plot)
   
