@@ -21,9 +21,18 @@ plotEcoGovernmentCapital <- function(df_economy, output_dir, one_plot) {
               ,std = sd(government_reserve_of_capital)
     )
   
+  # ----- convert to days
+  df_government_capital_mean_std_day <- df_government_capital_mean_std
+  df_government_capital_mean_std_day$day <- dmfConvertTicksToDay(df_government_capital_mean_std_day$tick)
+  df_government_capital_mean_std_day <- df_government_capital_mean_std_day %>% group_by(day, Scenario) %>% summarise(
+    day, Scenario,
+    mean = mean(mean),
+    std = mean(std))
+  
   print(paste(name, " writing CSV", sep=""))
   write.csv(df_government_capital, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
   write.csv(df_government_capital_mean_std, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
+  write.csv(df_government_capital_mean_std_day, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
   
   #-------------------------------------------------------------
   #------------------------- Plotting --------------------------
@@ -33,12 +42,17 @@ plotEcoGovernmentCapital <- function(df_economy, output_dir, one_plot) {
   print(paste(name, " making plots", sep=""))
   
   dmfPdfOpen(output_dir, "eco_government_capital")
-  print(plot_ggplot(seg_government_capital))
+  print(plot_ggplot(seg_government_capital, "tick"))
   dmfPdfClose()
   
   dmfPdfOpen(output_dir, "eco_government_capital_smooth_uncertainty")
-  print(plot_ggplot_smooth_uncertainty(df_government_capital_mean_std))
+  print(plot_ggplot_smooth_uncertainty_std(df_government_capital_mean_std, "tick"))
   dmfPdfClose()
+  
+  dmfPdfOpen(output_dir, "eco_government_capital_smooth_uncertainty_day")
+  print(plot_ggplot_smooth_uncertainty_std(df_government_capital_mean_std_day, "day"))
+  dmfPdfClose()
+  
   
   # dmfPdfOpen(output_dir, "eco_government_capital_smooth")
   # print(plot_ggplot_smooth(df_government_capital_mean_std))
@@ -51,17 +65,19 @@ plotEcoGovernmentCapital <- function(df_economy, output_dir, one_plot) {
 #=============================================================
 
 
-plot_ggplot <- function(data_to_plot) {
+plot_ggplot <- function(data_to_plot, timeframe) {
+  
+  timeframe <- sym(timeframe)
   
   data_to_plot %>%
-    ggplot(aes(x = tick, 
+    ggplot(aes(x = !!timeframe, 
                y = measurement)) +
     #geom_smooth(aes(col=Scenario), span=0.1, se=FALSE) +
-    geom_line(size=1,alpha=0.8,aes(color=Scenario, group = run_number)) +
-    #geom_errorbar(aes(ymin = mean_capital - std_mean_capital, ymax = mean_capital + std_mean_capital,
+    gl_plot_line +
+    #geom_errorbar(aes(ymin = mean_goods_produced - std_mean_goods_produced, ymax = mean_goods_produced + std_mean_goods_produced,
     #                  color=Scenario, group = Scenario)) +
     #continues_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab("Ticks") +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Capital") + 
     labs(title="Government capital",
          subtitle="Capital of the government in reserve", 
@@ -70,14 +86,15 @@ plot_ggplot <- function(data_to_plot) {
     gl_plot_guides + gl_plot_theme
 }
 
-plot_ggplot_smooth <- function(data_to_plot) {
+plot_ggplot_smooth <- function(data_to_plot, timeframe) {
+  
+  timeframe <- sym(timeframe)
   
   data_to_plot %>%
-    ggplot(aes(x = tick, 
+    ggplot(aes(x = !!timeframe, 
                y = mean)) +
-    geom_smooth(aes(col=Scenario), span=0.1, se=FALSE) +
-    #scale_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab("Ticks") +
+    gl_plot_smooth +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Capital") + 
     labs(title="Government capital",
          subtitle="Capital of the government in reserve (smoothed)", 
@@ -86,16 +103,16 @@ plot_ggplot_smooth <- function(data_to_plot) {
     gl_plot_guides + gl_plot_theme
 }
 
-plot_ggplot_smooth_uncertainty <- function(data_to_plot) {
+plot_ggplot_smooth_uncertainty_std <- function(data_to_plot, timeframe) {
+  
+  timeframe <- sym(timeframe)
   
   data_to_plot %>%
-    ggplot(aes(x = tick, 
+    ggplot(aes(x = !!timeframe, 
                y = mean)) +
-    geom_smooth(aes(col=Scenario), span=0.1, se=FALSE) +
-    geom_ribbon(aes(ymin = mean - std, ymax = mean + std,
-                    color= Scenario), alpha=0.1) +
-    #scale_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab("Ticks") +
+    gl_plot_smooth +
+    gl_plot_ribbon_std + 
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Capital") + 
     labs(title="Government capital",
          subtitle="Capital of the government in reserve (smoothed + uncertainty (std. dev.)))", 

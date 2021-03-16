@@ -265,7 +265,7 @@ plot_ggplot_stacked_allcontacts <- function(data_to_plot, timeframe, type_of_peo
                y = count,
                fill = type)) +
     geom_area(position = "stack", aes(color = type)) +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Contacts") + 
     labs(title=paste(type_of_people, "contacts", sep = " "),
          subtitle="Amount of contacts, stacked", 
@@ -292,7 +292,7 @@ plot_ggplot_smooth <- function(data_to_plot, timeframe, type_of_people) {
     #geom_line(aes(color = Scenario), size=2,alpha=0.8) + 
     gl_plot_smooth +
     #gl_plot_ribbon_minmax +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Contacts") + 
     labs(title=paste(type_of_people, "contacts", sep = " "),
          subtitle="Amount of contacts per scenario, smoothed", 

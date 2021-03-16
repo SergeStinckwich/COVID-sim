@@ -57,7 +57,7 @@ plot_ggplot <- function(data_to_plot) {
                y = measurement)) +
     gl_plot_line +
     #continues_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab("ticks") +
+    xlab("Ticks") +
     ylab("Infected") + 
     labs(title="Infected numbers",
          subtitle="Total number of people infected", 

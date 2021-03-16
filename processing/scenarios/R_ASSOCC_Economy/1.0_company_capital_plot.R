@@ -23,40 +23,66 @@ plotEcoCompanyCapital <- function(df_economy, output_dir, one_plot) {
   #                                      retired = retirees_average_amount_of_capital,
   #                                      students = students_average_amount_of_capital)
   
-  df_essential_shop_captial <- df_economy %>% select(tick, run_number, Scenario,
-                                              capital = essential_shop_amount_of_capital,
+  df_workplace_captial <- df_economy %>% select(tick, run_number, Scenario,
+                                               capital = workplace_amount_of_capital,
   )
   
   df_essential_shop_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
-                                                                                      mean_capital = mean(essential_shop_amount_of_capital)
-                                                                                      ,std_mean_capital = sd(essential_shop_amount_of_capital)
-  )
-  
-  df_non_essential_shop_captial <- df_economy %>% select(tick, run_number, Scenario,
-                                              capital = non_essential_shop_amount_of_capital,
+                                                                                 mean = mean(essential_shop_amount_of_capital)
+                                                                                 ,std = sd(essential_shop_amount_of_capital)
   )
   
   df_non_essential_shop_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
-                                                                                      mean_capital = mean(non_essential_shop_amount_of_capital)
-                                                                                      ,std_mean_capital = sd(non_essential_shop_amount_of_capital)
+                                                                                 mean = mean(non_essential_shop_amount_of_capital)
+                                                                                 ,std = sd(non_essential_shop_amount_of_capital)
+  )
+
+  df_workplace_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
+                                                                                          mean = mean(workplace_amount_of_capital)
+                                                                                          ,std = sd(workplace_amount_of_capital)
   )
   
-  # df_workplace_captial <- df_economy %>% select(tick, run_number, Scenario,
-  #                                              students = students_average_amount_of_capital,
-  # )
-  # 
   # df_students_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
-  #                                                                                      mean_capital = mean(students_average_amount_of_capital)
-  #                                                                                      ,std_mean_capital = sd(students_average_amount_of_capital)
+  #                                                                                      mean = mean(students_average_amount_of_capital)
+  #                                                                                      ,std = sd(students_average_amount_of_capital)
   # )
   
-  #seg_people_calpital <- gather(df_mean_std, variable, measurement, mean_capital, std_mean_capital)
+  
+  # ----- convert to days
+  df_essential_shop_mean_std_day <- df_essential_shop_mean_std
+  df_essential_shop_mean_std_day$day <- dmfConvertTicksToDay(df_essential_shop_mean_std_day$tick)
+  df_essential_shop_mean_std_day <- df_essential_shop_mean_std_day %>% group_by(day, Scenario) %>% summarise(
+    day, Scenario,
+    mean = mean(mean),
+    std = mean(std))
+  
+  df_non_essential_shop_mean_std_day <- df_non_essential_shop_mean_std
+  df_non_essential_shop_mean_std_day$day <- dmfConvertTicksToDay(df_non_essential_shop_mean_std_day$tick)
+  df_non_essential_shop_mean_std_day <- df_non_essential_shop_mean_std_day %>% group_by(day, Scenario) %>% summarise(
+    day, Scenario,
+    mean = mean(mean),
+    std = mean(std))
+  
+  df_workplace_mean_std_day <- df_workplace_mean_std
+  df_workplace_mean_std_day$day <- dmfConvertTicksToDay(df_workplace_mean_std_day$tick)
+  df_workplace_mean_std_day <- df_workplace_mean_std_day %>% group_by(day, Scenario) %>% summarise(
+    day, Scenario,
+    mean = mean(mean),
+    std = mean(std))
+  
+  
+  #seg_people_calpital <- gather(df_mean_std, variable, measurement, mean, std)
   
   
   print(paste(name, " writing CSV", sep=""))
   write.csv(df_essential_shop_mean_std, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
   write.csv(df_non_essential_shop_mean_std, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
+  write.csv(df_workplace_mean_std, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
   # write.csv(df_students_mean_std, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
+  
+  write.csv(df_essential_shop_mean_std_day, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
+  write.csv(df_non_essential_shop_mean_std_day, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
+  write.csv(df_workplace_mean_std_day, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
   
   #-------------------------------------------------------------
   #------------------------- Plotting --------------------------
@@ -66,20 +92,39 @@ plotEcoCompanyCapital <- function(df_economy, output_dir, one_plot) {
   print(paste(name, " making plots", sep=""))
   
   dmfPdfOpen(output_dir, "eco_essential_shop_capital")
-  print(plot_ggplot(df_essential_shop_mean_std, "essential shop"))
+  print(plot_ggplot(df_essential_shop_mean_std, "essential shop", "tick"))
   dmfPdfClose()
   
   dmfPdfOpen(output_dir, "eco_essential_shop_capital_smooth")
-  print(plot_ggplot_smooth(df_essential_shop_mean_std, "essential shop"))
+  print(plot_ggplot_smooth(df_essential_shop_mean_std, "essential shop", "tick"))
   dmfPdfClose()
   
   dmfPdfOpen(output_dir, "eco_non_essential_shop_capital")
-  print(plot_ggplot(df_non_essential_shop_mean_std, "non-essential shop"))
+  print(plot_ggplot(df_non_essential_shop_mean_std, "non-essential shop", "tick"))
   dmfPdfClose()
   
   dmfPdfOpen(output_dir, "eco_non_essential_shop_capital_smooth")
-  print(plot_ggplot_smooth(df_non_essential_shop_mean_std, "non-essential shop"))
+  print(plot_ggplot_smooth(df_non_essential_shop_mean_std, "non-essential shop", "tick"))
   dmfPdfClose()
+  
+  dmfPdfOpen(output_dir, "eco_workplace_capital_smooth")
+  print(plot_ggplot_smooth(df_workplace_mean_std, "workplace", "tick"))
+  dmfPdfClose()
+  
+  
+  # --- days
+  dmfPdfOpen(output_dir, "eco_essential_shop_capital_smooth_day")
+  print(plot_ggplot_smooth(df_essential_shop_mean_std_day, "essential shop", "day"))
+  dmfPdfClose()
+  
+  dmfPdfOpen(output_dir, "eco_non_essential_shop_capital_smooth_day")
+  print(plot_ggplot_smooth(df_non_essential_shop_mean_std_day, "non-essential shop", "day"))
+  dmfPdfClose()
+  
+  dmfPdfOpen(output_dir, "eco_workplace_capital_smooth_day")
+  print(plot_ggplot_smooth(df_workplace_mean_std_day, "workplace", "day"))
+  dmfPdfClose()
+  
   
   # dmfPdfOpen(output_dir, "eco_students_capital")
   # print(plot_ggplot(df_students_mean_std, "students"))
@@ -95,16 +140,18 @@ plotEcoCompanyCapital <- function(df_economy, output_dir, one_plot) {
 #=============================================================
 
 
-plot_ggplot <- function(data_to_plot, type_of_people) {
+plot_ggplot <- function(data_to_plot, type_of_people, timeframe) {
+  
+  timeframe <- sym(timeframe)
   
   data_to_plot %>%
-    ggplot(aes(x = tick, 
-               y = mean_capital)) +
+    ggplot(aes(x = !!timeframe, 
+               y = mean)) +
     geom_line(size=2,alpha=0.8,aes(color=Scenario, group = Scenario)) +
-    #geom_errorbar(aes(ymin = mean_capital - std_mean_capital, ymax = mean_capital + std_mean_capital,
+    #geom_errorbar(aes(ymin = mean - std, ymax = mean + std,
     #                  color=Scenario, group = Scenario)) +
     #continues_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab("Ticks") +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Capital") + 
     labs(title=paste("Average", type_of_people, "capital", sep = " "),
          subtitle=paste("Average capital of", type_of_people, sep = " "), 
@@ -114,16 +161,18 @@ plot_ggplot <- function(data_to_plot, type_of_people) {
 }
 
 
-plot_ggplot_smooth <- function(data_to_plot, type_of_people) {
+plot_ggplot_smooth <- function(data_to_plot, type_of_people, timeframe) {
+  
+  timeframe <- sym(timeframe)
   
   data_to_plot %>%
-    ggplot(aes(x = tick, 
-               y = mean_capital)) +
+    ggplot(aes(x = !!timeframe, 
+               y = mean)) +
     gl_plot_smooth +
-    geom_ribbon(aes(ymin = mean_capital - std_mean_capital, ymax = mean_capital + std_mean_capital,
+    geom_ribbon(aes(ymin = mean - std, ymax = mean + std,
                     color= Scenario), alpha=0.025) +
     #scale_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab("Ticks") +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Capital") + 
     labs(title=paste("Average", type_of_people, "capital", sep = " "),
          subtitle=paste("Average capital of", type_of_people, "(smoothed)", sep = " "), 

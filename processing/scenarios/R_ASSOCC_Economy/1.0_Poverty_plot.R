@@ -33,6 +33,22 @@ plotEcoPoverty <- function(df_economy, output_dir, one_plot) {
               ,std = sd(count_workers_with_is_in_poverty)
     ) %>% unique()
   
+  # ---- calculate poverty of all people who get a steady subsidy income from the government
+  df_poverty_subsidy <- df_economy %>% mutate(poverty = count_retireds_with_is_in_poverty +
+                                                count_students_with_is_in_poverty)
+  
+  # df_poverty_subsidy <- df_poverty_subsidy %>% select(run_number,
+  #                                             random_seed,
+  #                                             tick,
+  #                                             Scenario,
+  #                                             poverty
+  #                                             )
+  
+  df_poverty_subsidy_mean_std <- df_poverty_subsidy %>% group_by(tick, Scenario) %>%
+    summarise(tick, Scenario,
+              mean = mean(poverty)
+              ,std = sd(poverty)
+    ) %>% unique()
   
   
   # Add days converted from ticks
@@ -43,6 +59,10 @@ plotEcoPoverty <- function(df_economy, output_dir, one_plot) {
   df_poverty_worker_day <- df_poverty_worker
   df_poverty_worker_day$day <- dmfConvertTicksToDay(df_poverty_worker_day$tick)
   df_poverty_worker_day <- df_poverty_worker_day %>% group_by(day, run_number) %>% summarise(day, run_number, Scenario, mean = mean(poverty)) %>% unique()
+  
+  df_poverty_subsidy_day <- df_poverty_subsidy
+  df_poverty_subsidy_day$day <- dmfConvertTicksToDay(df_poverty_subsidy_day$tick)
+  df_poverty_subsidy_day <- df_poverty_subsidy_day %>% group_by(day, run_number) %>% summarise(day, run_number, Scenario, mean = mean(poverty)) %>% unique()
   
   
   # and for averages of scenario
@@ -56,6 +76,13 @@ plotEcoPoverty <- function(df_economy, output_dir, one_plot) {
   df_poverty_worker_mean_std_day <- df_poverty_worker_mean_std
   df_poverty_worker_mean_std_day$day <- dmfConvertTicksToDay(df_poverty_worker_mean_std_day$tick)
   df_poverty_worker_mean_std_day <- df_poverty_worker_mean_std_day %>% group_by(day, Scenario) %>% summarise(
+    day, Scenario,
+    mean = mean(mean),
+    std = mean(std))
+  
+  df_poverty_subsidy_mean_std_day <- df_poverty_subsidy_mean_std
+  df_poverty_subsidy_mean_std_day$day <- dmfConvertTicksToDay(df_poverty_subsidy_mean_std_day$tick)
+  df_poverty_subsidy_mean_std_day <- df_poverty_subsidy_mean_std_day %>% group_by(day, Scenario) %>% summarise(
     day, Scenario,
     mean = mean(mean),
     std = mean(std))
@@ -88,6 +115,13 @@ plotEcoPoverty <- function(df_economy, output_dir, one_plot) {
     mean = mean(mean),
     std = mean(std))
   
+  df_poverty_subsidy_mean_std_week <- df_poverty_subsidy_mean_std_day
+  df_poverty_subsidy_mean_std_week$week <- dmfConvertDaysToWeek(df_poverty_subsidy_mean_std_week$day)
+  df_poverty_subsidy_mean_std_week <- df_poverty_subsidy_mean_std_week %>% group_by(week, Scenario) %>% summarise(
+    week, Scenario,
+    mean = mean(mean),
+    std = mean(std))
+  
   
   
   
@@ -108,6 +142,16 @@ plotEcoPoverty <- function(df_economy, output_dir, one_plot) {
   
   print(paste(name, " writing CSV", sep=""))
   write.csv(df_poverty_worker_mean_std_week, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
+  
+  print(paste(name, " writing CSV", sep=""))
+  write.csv(df_poverty_subsidy_mean_std, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
+  
+  print(paste(name, " writing CSV", sep=""))
+  write.csv(df_poverty_subsidy_mean_std_day, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
+  
+  print(paste(name, " writing CSV", sep=""))
+  write.csv(df_poverty_subsidy_mean_std_week, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
+  
   
   #-------------------------------------------------------------
   #------------------------- Plotting --------------------------
@@ -137,6 +181,10 @@ plotEcoPoverty <- function(df_economy, output_dir, one_plot) {
   print(plot_ggplot_smooth_uncertainty(df_poverty_worker_mean_std, "tick", "Workers"))
   dmfPdfClose()
 
+  dmfPdfOpen(output_dir, "eco_poverty_subsidy_smooth_uncertainty_tick")
+  print(plot_ggplot_smooth_uncertainty(df_poverty_subsidy_mean_std, "tick", "Subsedized"))
+  dmfPdfClose()
+  
   #days
   seg_poverty_total_day <- gather(df_poverty_total_day, variable, measurement, mean)
   
@@ -157,6 +205,14 @@ plotEcoPoverty <- function(df_economy, output_dir, one_plot) {
   
   dmfPdfOpen(output_dir, "eco_poverty_worker_smooth_uncertainty_day")
   print(plot_ggplot_smooth_uncertainty(df_poverty_worker_mean_std_day, "day", "Workers"))
+  dmfPdfClose()
+  
+  dmfPdfOpen(output_dir, "eco_poverty_subsidy_smooth_day")
+  print(plot_ggplot_smooth(df_poverty_subsidy_mean_std_day, "day", "Subsedized"))
+  dmfPdfClose()
+  
+  dmfPdfOpen(output_dir, "eco_poverty_subsidy_smooth_uncertainty_day")
+  print(plot_ggplot_smooth_uncertainty(df_poverty_subsidy_mean_std_day, "day", "Subsedized"))
   dmfPdfClose()
   
 
@@ -183,6 +239,10 @@ plotEcoPoverty <- function(df_economy, output_dir, one_plot) {
   print(plot_ggplot_smooth_uncertainty(df_poverty_worker_mean_std_week, "week", "Workers"))
   dmfPdfClose()
   
+  dmfPdfOpen(output_dir, "eco_poverty_subsidy_smooth_uncertainty_week")
+  print(plot_ggplot_smooth_uncertainty(df_poverty_subsidy_mean_std_week, "week", "Subsedized"))
+  dmfPdfClose()
+  
 }
 
 #=============================================================
@@ -203,7 +263,7 @@ plot_ggplot <- function(data_to_plot, timeframe, type_of_people) {
     #geom_errorbar(aes(ymin = mean_goods_produced - std_mean_goods_produced, ymax = mean_goods_produced + std_mean_goods_produced,
     #                  color=Scenario, group = Scenario)) +
     #continues_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("People") + 
     labs(title=paste(type_of_people, "in poverty", sep = " "),
          subtitle="One is 'in poverty' when they can't buy >2 sets of rations", 
@@ -222,7 +282,25 @@ plot_ggplot_smooth_uncertainty <- function(data_to_plot, timeframe, type_of_peop
     gl_plot_smooth +
     gl_plot_ribbon_std + 
     #scale_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
+    ylab("People") + 
+    labs(title=paste(type_of_people, "in poverty", sep = " "),
+         subtitle="One is 'in poverty' when they can't buy >2 sets of rations (smoothed + uncertainty (std. dev.))", 
+         caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
+    gl_plot_guides + gl_plot_theme
+}
+
+plot_ggplot_smooth <- function(data_to_plot, timeframe, type_of_people) {
+  
+  timeframe <- sym(timeframe)
+  
+  data_to_plot %>%
+    ggplot(aes(x = !!timeframe, 
+               y = mean)) +
+    gl_plot_smooth +
+    #scale_colour_brewer(palette = "Spectral", name="Infected") +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("People") + 
     labs(title=paste(type_of_people, "in poverty", sep = " "),
          subtitle="One is 'in poverty' when they can't buy >2 sets of rations (smoothed + uncertainty (std. dev.))", 

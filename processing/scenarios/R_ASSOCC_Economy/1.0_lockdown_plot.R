@@ -68,7 +68,7 @@ plot_days_lockdown <- function(data_to_plot) {
   
   data_to_plot %>%
     ggplot(aes(x = random_seed, y = n)) +
-    geom_col(aes(fill = Scenario), position='identity') +
+    geom_col(aes(fill = Scenario, group = Scenario), position='identity') +
     #gl_plot_theme +
     #theme(axis.title.x = element_text(size=7), axis.text.x = element_text(angle = 90)) +
     # xlab(p_df_runs_report$setting_names[1]) +

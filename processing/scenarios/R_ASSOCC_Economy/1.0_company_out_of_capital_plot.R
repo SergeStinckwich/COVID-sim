@@ -260,7 +260,7 @@ plot_ggplot <- function(data_to_plot, timeframe, type_of_people) {
     #geom_errorbar(aes(ymin = mean_goods_produced - std_mean_goods_produced, ymax = mean_goods_produced + std_mean_goods_produced,
     #                  color=Scenario, group = Scenario)) +
     #continues_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Companies") + 
     labs(title=paste(type_of_people, "out of capital", sep = " "),
          subtitle="Amount out of capital", 
@@ -280,7 +280,7 @@ plot_ggplot_smooth_uncertainty_std <- function(data_to_plot, timeframe, type_of_
                y = mean)) +
     gl_plot_smooth +
     gl_plot_ribbon_std + 
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Companies") + 
     labs(title=paste(type_of_people, "out of capital", sep = " "),
          subtitle="Amount out of capital (smoothed + uncertainty (std. dev.))", 
@@ -299,7 +299,7 @@ plot_ggplot_smooth_uncertainty <- function(data_to_plot, timeframe, type_of_peop
                y = mean)) +
     gl_plot_smooth +
     gl_plot_ribbon_minmax +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Companies") + 
     labs(title=paste(type_of_people, "out of capital", sep = " "),
          subtitle="Amount out of capital (smoothed + uncertainty (min & max))", 

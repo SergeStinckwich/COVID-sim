@@ -130,27 +130,27 @@ plotEcoPeopleCapital <- function(df_economy, output_dir, one_plot) {
   dmfPdfClose()
   
  # --- days ---
-  dmfPdfOpen(output_dir, "eco_workers_capital")
+  dmfPdfOpen(output_dir, "eco_workers_capital_day")
   print(plot_ggplot(df_workers_mean_std_day, "day", "workers"))
   dmfPdfClose()
   
-  dmfPdfOpen(output_dir, "eco_workers_capital_smooth")
+  dmfPdfOpen(output_dir, "eco_workers_capital_smooth_day")
   print(plot_ggplot_smooth_uncertainty_std(df_workers_mean_std_day, "day", "workers"))
   dmfPdfClose()
   
-  dmfPdfOpen(output_dir, "eco_retired_capital")
+  dmfPdfOpen(output_dir, "eco_retired_capital_day")
   print(plot_ggplot(df_retired_mean_std_day, "day", "retired"))
   dmfPdfClose()
   
-  dmfPdfOpen(output_dir, "eco_retired_capital_smooth")
+  dmfPdfOpen(output_dir, "eco_retired_capital_smooth_day")
   print(plot_ggplot_smooth_uncertainty_std(df_retired_mean_std_day, "day", "retired"))
   dmfPdfClose()
   
-  dmfPdfOpen(output_dir, "eco_students_capital")
+  dmfPdfOpen(output_dir, "eco_students_capital_say")
   print(plot_ggplot(df_students_mean_std_day, "day", "students"))
   dmfPdfClose()
   
-  dmfPdfOpen(output_dir, "eco_students_capital_smooth")
+  dmfPdfOpen(output_dir, "eco_students_capital_smooth_day")
   print(plot_ggplot_smooth_uncertainty_std(df_students_mean_std_day, "day", "students"))
   dmfPdfClose()
 }
@@ -172,7 +172,7 @@ plot_ggplot <- function(data_to_plot, timeframe, type_of_people) {
     #geom_errorbar(aes(ymin = mean_goods_produced - std_mean_goods_produced, ymax = mean_goods_produced + std_mean_goods_produced,
     #                  color=Scenario, group = Scenario)) +
     #continues_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Capital") + 
     labs(title=paste("Average", type_of_people, "capital", sep = " "),
          subtitle=paste("Average capital of", type_of_people, sep = " "), 
@@ -190,7 +190,7 @@ plot_ggplot_smooth_uncertainty_std <- function(data_to_plot, timeframe, type_of_
                y = mean)) +
     gl_plot_smooth +
     gl_plot_ribbon_std + 
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Capital") + 
     labs(title=paste("Average", type_of_people, "capital", sep = " "),
          subtitle=paste("Average capital of", type_of_people, "(smoothed + uncertainty (std. dev.))", sep = " "), 

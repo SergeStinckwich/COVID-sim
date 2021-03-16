@@ -132,7 +132,7 @@ plot_ggplot_smooth_uncertainty <- function(data_to_plot, timeframe, type_of_peop
     gl_plot_smooth +
     gl_plot_ribbon_std + 
     #scale_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("QoL %") + 
     labs(title="Quality of life",
          subtitle="Mean QOL with std. dev. across runs for area", 
@@ -153,7 +153,7 @@ plot_ggplot_smooth_minmax <- function(data_to_plot, timeframe, type_of_people) {
     geom_ribbon(aes(ymin = min, ymax = max,
                     color= Scenario), alpha=0.025) +
     #scale_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("QoL %") + 
     labs(title="Quality of life",
          subtitle="Mean QOL with area that shows maximum and minimum value present", 

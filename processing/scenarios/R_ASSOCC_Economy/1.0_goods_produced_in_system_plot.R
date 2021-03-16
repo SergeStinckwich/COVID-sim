@@ -121,7 +121,7 @@ plot_ggplot <- function(data_to_plot, timeframe) {
     #geom_errorbar(aes(ymin = mean_goods_produced - std_mean_goods_produced, ymax = mean_goods_produced + std_mean_goods_produced,
     #                  color=Scenario, group = Scenario)) +
     #continues_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Goods produced") + 
     labs(title="Goods produced in the system",
          subtitle="Goods produced in the total system", 
@@ -139,7 +139,7 @@ plot_ggplot_smooth <- function(data_to_plot, timeframe) {
                y = mean)) +
     gl_plot_smooth +
     #scale_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Goods produced") + 
     labs(title="Goods produced in the system",
          subtitle="Goods produced in the total system (smoothed)", 
@@ -158,7 +158,7 @@ plot_ggplot_smooth_uncertainty <- function(data_to_plot, timeframe) {
     gl_plot_smooth +
     gl_plot_ribbon_std + 
     #scale_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Goods produced") + 
     labs(title="Goods produced in the system",
          subtitle="Goods produced in the total system (smoothed + uncertainty (std. dev.))", 

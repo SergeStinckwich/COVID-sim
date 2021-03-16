@@ -28,8 +28,8 @@ plotEcoPeopleWokringFor <- function(df_economy, output_dir, one_plot) {
   )
   
   df_workers_working_for_essential_shop_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
-                                                                                                  mean_working_for = mean(workers_working_at_essential_shop)
-                                                                                                  ,std_mean_working_for = sd(workers_working_at_essential_shop)
+                                                                                                  mean = mean(workers_working_at_essential_shop)
+                                                                                                  ,std = sd(workers_working_at_essential_shop)
   )
   
   df_workers_working_for_non_essential_shop <- df_economy %>% select(tick, run_number, Scenario,
@@ -37,8 +37,8 @@ plotEcoPeopleWokringFor <- function(df_economy, output_dir, one_plot) {
   )
   
   df_workers_working_for_non_essential_shop_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
-                                                                                                   mean_working_for = mean(workers_working_at_non_essential_shop)
-                                                                                                   ,std_mean_working_for = sd(workers_working_at_non_essential_shop)
+                                                                                                   mean = mean(workers_working_at_non_essential_shop)
+                                                                                                   ,std = sd(workers_working_at_non_essential_shop)
   )
   
   df_workers_working_for_workplace <- df_economy %>% select(tick, run_number, Scenario,
@@ -46,17 +46,43 @@ plotEcoPeopleWokringFor <- function(df_economy, output_dir, one_plot) {
   )
   
   df_workers_working_for_workplace_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(tick, Scenario,
-                                                                                                  mean_working_for = mean(workers_working_at_workplace)
-                                                                                                  ,std_mean_working_for = sd(workers_working_at_workplace)
+                                                                                                  mean = mean(workers_working_at_workplace)
+                                                                                                  ,std = sd(workers_working_at_workplace)
   )
   
-  #seg_people_calpital <- gather(df_mean_std, variable, measurement, mean_working_for, std_mean_working_for)
+  # ----- convert to days
+  df_workers_working_for_essential_shop_mean_std_day <- df_workers_working_for_essential_shop_mean_std
+  df_workers_working_for_essential_shop_mean_std_day$day <- dmfConvertTicksToDay(df_workers_working_for_essential_shop_mean_std_day$tick)
+  df_workers_working_for_essential_shop_mean_std_day <- df_workers_working_for_essential_shop_mean_std_day %>% group_by(day, Scenario) %>% summarise(
+    day, Scenario,
+    mean = mean(mean),
+    std = mean(std))
+  
+  df_workers_working_for_non_essential_shop_mean_std_day <- df_workers_working_for_non_essential_shop_mean_std
+  df_workers_working_for_non_essential_shop_mean_std_day$day <- dmfConvertTicksToDay(df_workers_working_for_non_essential_shop_mean_std_day$tick)
+  df_workers_working_for_non_essential_shop_mean_std_day <- df_workers_working_for_non_essential_shop_mean_std_day %>% group_by(day, Scenario) %>% summarise(
+    day, Scenario,
+    mean = mean(mean),
+    std = mean(std))
+  
+  df_workers_working_for_workplace_mean_std_day <- df_workers_working_for_workplace_mean_std
+  df_workers_working_for_workplace_mean_std_day$day <- dmfConvertTicksToDay(df_workers_working_for_workplace_mean_std_day$tick)
+  df_workers_working_for_workplace_mean_std_day <- df_workers_working_for_workplace_mean_std_day %>% group_by(day, Scenario) %>% summarise(
+    day, Scenario,
+    mean = mean(mean),
+    std = mean(std))
+  
+  #seg_people_calpital <- gather(df_mean_std, variable, measurement, mean, std)
   
   
   print(paste(name, " writing CSV", sep=""))
   write.csv(df_workers_working_for_essential_shop_mean_std, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
   write.csv(df_workers_working_for_non_essential_shop_mean_std, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
   write.csv(df_workers_working_for_workplace_mean_std, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
+  write.csv(df_workers_working_for_essential_shop_mean_std_day, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
+  write.csv(df_workers_working_for_non_essential_shop_mean_std_day, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
+  write.csv(df_workers_working_for_workplace_mean_std_day, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
+  
   
   #-------------------------------------------------------------
   #------------------------- Plotting --------------------------
@@ -66,27 +92,52 @@ plotEcoPeopleWokringFor <- function(df_economy, output_dir, one_plot) {
   print(paste(name, " making plots", sep=""))
   
   dmfPdfOpen(output_dir, "eco_essential_shop_working_for")
-  print(plot_ggplot(df_workers_working_for_essential_shop_mean_std, "essential shop"))
+  print(plot_ggplot(df_workers_working_for_essential_shop_mean_std, "tick", "essential shop"))
   dmfPdfClose()
   
   dmfPdfOpen(output_dir, "eco_essential_shop_working_for_smooth")
-  print(plot_ggplot_smooth(df_workers_working_for_essential_shop_mean_std, "essential shop"))
+  print(plot_ggplot_smooth_uncertainty_std(df_workers_working_for_essential_shop_mean_std, "tick", "essential shop"))
   dmfPdfClose()
   
   dmfPdfOpen(output_dir, "eco_non_essential_shop_working_for")
-  print(plot_ggplot(df_workers_working_for_non_essential_shop_mean_std, "non-essential shop"))
+  print(plot_ggplot(df_workers_working_for_non_essential_shop_mean_std, "tick", "non-essential shop"))
   dmfPdfClose()
   
   dmfPdfOpen(output_dir, "eco_non_essential_shop_working_for_smooth")
-  print(plot_ggplot_smooth(df_workers_working_for_non_essential_shop_mean_std, "non essential-shop"))
+  print(plot_ggplot_smooth_uncertainty_std(df_workers_working_for_non_essential_shop_mean_std, "tick", "non essential-shop"))
   dmfPdfClose()
   
   dmfPdfOpen(output_dir, "eco_workplace_working_for")
-  print(plot_ggplot(df_workers_working_for_workplace_mean_std, "workplace"))
+  print(plot_ggplot(df_workers_working_for_workplace_mean_std, "tick", "workplace"))
   dmfPdfClose()
   
   dmfPdfOpen(output_dir, "eco_workplace_smooth")
-  print(plot_ggplot_smooth(df_workers_working_for_workplace_mean_std, "workplace"))
+  print(plot_ggplot_smooth_uncertainty_std(df_workers_working_for_workplace_mean_std, "tick", "workplace"))
+  dmfPdfClose()
+  
+  #-- Days
+  dmfPdfOpen(output_dir, "eco_essential_shop_working_for_day")
+  print(plot_ggplot(df_workers_working_for_essential_shop_mean_std_day, "day", "essential shop"))
+  dmfPdfClose()
+  
+  dmfPdfOpen(output_dir, "eco_essential_shop_working_for_smooth_day")
+  print(plot_ggplot_smooth_uncertainty_std(df_workers_working_for_essential_shop_mean_std_day, "day", "essential shop"))
+  dmfPdfClose()
+  
+  dmfPdfOpen(output_dir, "eco_non_essential_shop_working_for_day")
+  print(plot_ggplot(df_workers_working_for_non_essential_shop_mean_std_day, "day", "non-essential shop"))
+  dmfPdfClose()
+  
+  dmfPdfOpen(output_dir, "eco_non_essential_shop_working_for_smooth_day")
+  print(plot_ggplot_smooth_uncertainty_std(df_workers_working_for_non_essential_shop_mean_std_day, "day", "non essential-shop"))
+  dmfPdfClose()
+  
+  dmfPdfOpen(output_dir, "eco_workplace_working_for_day")
+  print(plot_ggplot(df_workers_working_for_workplace_mean_std_day, "day", "workplace"))
+  dmfPdfClose()
+  
+  dmfPdfOpen(output_dir, "eco_workplace_smooth_day")
+  print(plot_ggplot_smooth_uncertainty_std(df_workers_working_for_workplace_mean_std_day, "day", "workplace"))
   dmfPdfClose()
 }
 
@@ -95,16 +146,19 @@ plotEcoPeopleWokringFor <- function(df_economy, output_dir, one_plot) {
 #=============================================================
 
 
-plot_ggplot <- function(data_to_plot, type_of_people) {
+plot_ggplot <- function(data_to_plot, timeframe, type_of_people) {
+  
+  timeframe <- sym(timeframe)
   
   data_to_plot %>%
-    ggplot(aes(x = tick, 
-               y = mean_working_for)) +
+    ggplot(aes(x = !!timeframe, 
+               y = mean)) +
+    #geom_smooth(aes(col=Scenario), span=0.1, se=FALSE) +
     geom_line(size=2,alpha=0.8,aes(color=Scenario, group = Scenario)) +
-    #geom_errorbar(aes(ymin = mean_working_for - std_mean_working_for, ymax = mean_working_for + std_mean_working_for,
+    #geom_errorbar(aes(ymin = mean_goods_produced - std_mean_goods_produced, ymax = mean_goods_produced + std_mean_goods_produced,
     #                  color=Scenario, group = Scenario)) +
     #continues_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab("Ticks") +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Workers") + 
     labs(title=paste("Workers working for", type_of_people, "", sep = " "),
          subtitle=paste("Workers working for", type_of_people, sep = " "), 
@@ -114,16 +168,16 @@ plot_ggplot <- function(data_to_plot, type_of_people) {
 }
 
 
-plot_ggplot_smooth <- function(data_to_plot, type_of_people) {
+plot_ggplot_smooth_uncertainty_std <- function(data_to_plot, timeframe, type_of_people) {
+  
+  timeframe <- sym(timeframe)
   
   data_to_plot %>%
-    ggplot(aes(x = tick, 
-               y = mean_working_for)) +
+    ggplot(aes(x = !!timeframe, 
+               y = mean)) +
     gl_plot_smooth +
-    #geom_ribbon(aes(ymin = mean_working_for - std_mean_working_for, ymax = mean_working_for + std_mean_working_for,
-    #                color= Scenario), alpha=0.1) +
-    #scale_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab("Ticks") +
+    gl_plot_ribbon_std + 
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Workers") + 
     labs(title=paste("Workers working for", type_of_people, "", sep = " "),
          subtitle=paste("Workers working for", type_of_people, "(smoothed)", sep = " "), 

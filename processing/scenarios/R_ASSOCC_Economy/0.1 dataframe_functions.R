@@ -143,14 +143,16 @@ dlfPlotIncludedRunsReport <- function(p_df_runs_report, p_output_dir) {
   plot <- ggplot(data=p_df_runs_report, aes(x=run_setting, y=count, fill=removed_runs)) +
     geom_bar(stat="identity", position=position_dodge()) +
     gl_plot_theme +
-    theme(axis.title.x = element_text(size=7), axis.text.x = element_text(angle = 90)) +
+    theme(axis.title.x = element_text(size=7), axis.text.x = element_text(angle = 25
+                                                                          , vjust = 0.5
+                                                                          , hjust=0.5)) +
     xlab(p_df_runs_report$setting_names[1]) +
     ylab("Number of runs per setting") +
     labs(title=paste("Completed and incomplete runs per setting"),
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)",
          fill="Run removed") +
     scale_fill_manual(values=c('#004394','#de2900'))
-  
+
   print(plot)
   dmfPdfClose()
 }
