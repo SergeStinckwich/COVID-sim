@@ -63,13 +63,13 @@ to FIX-ECONOMY
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-115
-59
-522
-467
+123
+52
+632
+562
 -1
 -1
-7.824
+9.824
 1
 10
 1
@@ -139,10 +139,10 @@ NIL
 HORIZONTAL
 
 PLOT
-10
-515
-518
-671
+15
+573
+523
+729
 population status
 time
 NIL
@@ -239,10 +239,10 @@ INPUTBOX
 Number
 
 TEXTBOX
-682
-476
-832
-494
+783
+501
+933
+519
 Age model
 11
 53.0
@@ -359,10 +359,10 @@ global-confinement-measures
 0
 
 PLOT
-10
-681
-518
-831
+15
+739
+523
+889
 measures
 NIL
 NIL
@@ -482,10 +482,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-936
-495
-1186
-528
+1037
+520
+1287
+553
 probability-hospital-personel
 probability-hospital-personel
 0
@@ -497,10 +497,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-941
-532
-1190
-565
+1042
+557
+1291
+590
 probability-school-personel
 probability-school-personel
 0
@@ -512,10 +512,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-938
-568
-1186
-601
+1039
+593
+1287
+626
 probability-university-personel
 probability-university-personel
 0
@@ -527,10 +527,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-941
-605
-1186
-638
+1042
+630
+1287
+663
 probability-shopkeeper
 probability-shopkeeper
 0
@@ -564,10 +564,10 @@ closed-universities?
 -1000
 
 SWITCH
-547
-47
-658
-80
+648
+72
+759
+105
 animate?
 animate?
 1
@@ -614,10 +614,10 @@ NIL
 1
 
 SWITCH
-552
-189
-655
-222
+653
+214
+756
+247
 log?
 log?
 1
@@ -790,30 +790,30 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-547
-13
-779
-53
+648
+38
+880
+78
 Simulation management
 16
 0.0
 1
 
 TEXTBOX
-589
-346
-797
-384
+690
+371
+898
+409
 Demographics Model
 16
 53.0
 1
 
 MONITOR
-760
-420
-929
-465
+861
+445
+1030
+490
 Adults rooming together
 count houses-hosting-adults2
 17
@@ -821,10 +821,10 @@ count houses-hosting-adults2
 11
 
 MONITOR
-1022
-420
-1130
-465
+1123
+445
+1231
+490
 Retired couples
 count houses-hosting-retired-couple
 17
@@ -832,10 +832,10 @@ count houses-hosting-retired-couple
 11
 
 MONITOR
-936
-420
-1016
-465
+1037
+445
+1117
+490
 Family
 count houses-hosting-family
 17
@@ -843,10 +843,10 @@ count houses-hosting-family
 11
 
 MONITOR
-1142
-422
-1317
-467
+1243
+447
+1418
+492
 Multi-generational living
 count houses-hosting-multiple-generations
 17
@@ -975,10 +975,10 @@ count people with [[gathering-type] of current-activity = \"hospital\"]
 11
 
 PLOT
-10
-834
-516
-1153
+15
+892
+521
+1211
 Average need satisfaction
 time
 need satisfaction
@@ -1070,10 +1070,10 @@ is-closing-school-when-any-reported-case-measure?
 -1000
 
 SLIDER
-676
-530
-924
-563
+777
+555
+1025
+588
 ratio-family-homes
 ratio-family-homes
 0
@@ -1148,10 +1148,10 @@ closed-non-essential?
 11
 
 SLIDER
-676
-495
-928
-528
+777
+520
+1029
+553
 ratio-adults-homes
 ratio-adults-homes
 0
@@ -1163,10 +1163,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-676
-565
-924
-598
+777
+590
+1025
+623
 ratio-retired-couple-homes
 ratio-retired-couple-homes
 0
@@ -1178,10 +1178,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-675
-602
-927
-635
+776
+627
+1028
+660
 ratio-multi-generational-homes
 ratio-multi-generational-homes
 0
@@ -1340,10 +1340,10 @@ Taxes charged by the government
 1
 
 CHOOSER
-583
-379
-743
-424
+684
+404
+844
+449
 household-profiles
 household-profiles
 "custom" "Belgium" "Canada" "Germany" "Great Britain" "France" "Italy" "Korea South" "Netherlands" "Norway" "Spain" "Singapore" "Sweden" "U.S.A."
@@ -1462,10 +1462,10 @@ NIL
 HORIZONTAL
 
 SWITCH
-668
-47
-781
-80
+769
+72
+882
+105
 static-seed?
 static-seed?
 1
@@ -1473,20 +1473,20 @@ static-seed?
 -1000
 
 CHOOSER
-548
-89
-790
-134
+649
+114
+891
+159
 preset-scenario
 preset-scenario
 "default-scenario" "scenario-1-zero-action-scandinavia" "scenario-1-closing-schools-and-uni" "scenario-1-work-at-home-only" "scenario-1-closing-all" "scenario-3-random-test-20" "scenario-3-app-test-60" "scenario-3-app-test-80" "scenario-3-app-test-100" "economic-scenario-1-baseline" "economic-scenario-2-infections" "economic-scenario-3-lockdown" "economic-scenario-4-wages" "app-test-scenario-5-1K" "scenario-6-default" "no-action-scandinavia-2.5K" "one-family" "scenario-9-smart-testing" "scenario-7-cultural-model"
 1
 
 MONITOR
-762
-373
-850
-418
+863
+398
+951
+443
 #children
 count children
 17
@@ -1494,10 +1494,10 @@ count children
 11
 
 MONITOR
-860
-372
-931
-417
+961
+397
+1032
+442
 #students
 count students
 17
@@ -1505,10 +1505,10 @@ count students
 11
 
 MONITOR
-937
-372
-1003
-417
+1038
+397
+1104
+442
 #workers
 count workers
 17
@@ -1516,10 +1516,10 @@ count workers
 11
 
 MONITOR
-1008
-373
-1067
-418
+1109
+398
+1168
+443
 #retired
 count retireds
 17
@@ -1557,10 +1557,10 @@ Closing universities
 1
 
 TEXTBOX
-941
-475
-1261
-524
+1042
+500
+1362
+549
 Worker distribution (relevant for economic model)
 11
 53.0
@@ -1627,10 +1627,10 @@ Economic Model
 1
 
 BUTTON
-803
-98
-1061
-133
+904
+123
+1162
+158
 load scenario-specific parameter settings
 load-scenario-specific-parameter-settings
 NIL
@@ -1979,10 +1979,10 @@ NIL
 HORIZONTAL
 
 INPUTBOX
-582
-495
-662
-558
+683
+520
+763
+583
 #households
 350.0
 1
@@ -1990,10 +1990,10 @@ INPUTBOX
 Number
 
 MONITOR
-582
-438
-657
-483
+683
+463
+758
+508
 #people
 count people
 17
@@ -2175,10 +2175,10 @@ NIL
 HORIZONTAL
 
 BUTTON
-548
-141
-614
-174
+649
+166
+715
+199
 import
 ask-user-for-import-file\nload-scenario-from-file
 NIL
@@ -2192,10 +2192,10 @@ NIL
 1
 
 BUTTON
-619
-141
-688
-174
+720
+166
+789
+199
 export
 ask-user-for-export-file\nsave-world-state
 NIL
@@ -2820,10 +2820,10 @@ Agent need system settings
 1
 
 INPUTBOX
-801
-27
-914
-87
+902
+52
+1015
+112
 #random-seed
 25.0
 1
@@ -2939,10 +2939,10 @@ count people with [is-user-of-tracking-app?]
 11
 
 BUTTON
-678
-436
-741
-469
+779
+461
+842
+494
 set
 load-population-profile-based-on-current-preset-profile
 NIL
@@ -3645,10 +3645,10 @@ Global quarantine
 1
 
 SWITCH
-662
-190
-834
-223
+763
+215
+935
+248
 log-contamination?
 log-contamination?
 1
@@ -3656,10 +3656,10 @@ log-contamination?
 -1000
 
 SWITCH
-549
-233
-804
-266
+650
+258
+905
+291
 log-preferred-activity-decision?
 log-preferred-activity-decision?
 1
@@ -3677,10 +3677,10 @@ Transport Model
 1
 
 SWITCH
-550
-269
-663
-302
+651
+294
+764
+327
 log-setup?
 log-setup?
 0
@@ -3703,10 +3703,10 @@ NIL
 HORIZONTAL
 
 SWITCH
-836
-240
-999
-273
+937
+265
+1100
+298
 clear-log-on-setup?
 clear-log-on-setup?
 0
@@ -3808,10 +3808,10 @@ ratio-quarantiners-currently-complying-to-quarantine
 11
 
 SWITCH
-839
-189
-1010
-222
+940
+214
+1111
+247
 log-violating-quarantine?
 log-violating-quarantine?
 1
@@ -4078,10 +4078,10 @@ parent-individual-subsidy-per-child-per-tick
 Number
 
 SWITCH
-662
-268
-812
-301
+763
+293
+913
+326
 log-transactions?
 log-transactions?
 0
@@ -4100,10 +4100,10 @@ is-quarantining-for-14-days-people-in-contact-with-a-sick-person-track-and-trace
 -1000
 
 SWITCH
-832
-277
-984
-310
+933
+302
+1085
+335
 inspect-to-file?
 inspect-to-file?
 1
@@ -4555,7 +4555,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.1.1
+NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
