@@ -11,10 +11,10 @@ plotEcoSystemGoodsProd <- function(df_economy, output_dir, one_plot) {
   #-------------------------------------------------------------
   print(paste(name, " performing data manipulation", sep=""))
   
-  df_goods_produced_in_system <- df_economy %>% select(tick, run_number, preset_scenario, goods_produced = goods_production_of_total_system)
+  df_goods_produced_in_system <- df_economy %>% select(tick, run_number, Scenario, goods_produced = goods_production_of_total_system)
   
-  df_goods_produced_in_system_mean_std <- df_economy %>% group_by(tick, preset_scenario) %>%
-    summarise(tick, preset_scenario,
+  df_goods_produced_in_system_mean_std <- df_economy %>% group_by(tick, Scenario) %>%
+    summarise(tick, Scenario,
               mean = mean(goods_production_of_total_system)
               ,std = sd(goods_production_of_total_system)
     )
@@ -22,13 +22,13 @@ plotEcoSystemGoodsProd <- function(df_economy, output_dir, one_plot) {
   # Add days converted from ticks
   df_goods_produced_day <- df_goods_produced_in_system
   df_goods_produced_day$day <- dmfConvertTicksToDay(df_goods_produced_day$tick)
-  df_goods_produced_day <- df_goods_produced_day %>% group_by(day, run_number) %>% summarise(day, run_number, preset_scenario, mean = mean(goods_produced)) %>% unique()
+  df_goods_produced_day <- df_goods_produced_day %>% group_by(day, run_number) %>% summarise(day, run_number, Scenario, mean = mean(goods_produced)) %>% unique()
   
   # and for averages of scenario
   df_goods_produced_mean_std_day <- df_goods_produced_in_system_mean_std
   df_goods_produced_mean_std_day$day <- dmfConvertTicksToDay(df_goods_produced_mean_std_day$tick)
-  df_goods_produced_mean_std_day <- df_goods_produced_mean_std_day %>% group_by(day, preset_scenario) %>% summarise(
-    day, preset_scenario,
+  df_goods_produced_mean_std_day <- df_goods_produced_mean_std_day %>% group_by(day, Scenario) %>% summarise(
+    day, Scenario,
     mean = mean(mean),
     std = mean(std))
   
@@ -37,13 +37,13 @@ plotEcoSystemGoodsProd <- function(df_economy, output_dir, one_plot) {
   #  We do not correct for broken weeks. 
   df_goods_produced_week <- df_goods_produced_day
   df_goods_produced_week$week <- dmfConvertDaysToWeek(df_goods_produced_week$day)
-  df_goods_produced_week <- df_goods_produced_week %>% group_by(week, run_number) %>% summarise(week, run_number, preset_scenario, mean = mean(mean)) %>% unique()
+  df_goods_produced_week <- df_goods_produced_week %>% group_by(week, run_number) %>% summarise(week, run_number, Scenario, mean = mean(mean)) %>% unique()
   
   # and for averages of scenario
   df_goods_produced_mean_std_week <- df_goods_produced_mean_std_day
   df_goods_produced_mean_std_week$week <- dmfConvertDaysToWeek(df_goods_produced_mean_std_week$day)
-  df_goods_produced_mean_std_week <- df_goods_produced_mean_std_week %>% group_by(week, preset_scenario) %>% summarise(
-    week, preset_scenario,
+  df_goods_produced_mean_std_week <- df_goods_produced_mean_std_week %>% group_by(week, Scenario) %>% summarise(
+    week, Scenario,
     mean = mean(mean),
     std = mean(std))
   
@@ -116,16 +116,17 @@ plot_ggplot <- function(data_to_plot, timeframe) {
   data_to_plot %>%
     ggplot(aes(x = !!timeframe, 
                y = measurement)) +
-    #geom_smooth(aes(col=preset_scenario), span=0.1, se=FALSE) +
-    geom_line(size=1,alpha=0.8,aes(color=preset_scenario, group = run_number)) +
+    #geom_smooth(aes(col=Scenario), span=0.1, se=FALSE) +
+    gl_plot_line +
     #geom_errorbar(aes(ymin = mean_goods_produced - std_mean_goods_produced, ymax = mean_goods_produced + std_mean_goods_produced,
-    #                  color=preset_scenario, group = preset_scenario)) +
+    #                  color=Scenario, group = Scenario)) +
     #continues_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Goods produced") + 
     labs(title="Goods produced in the system",
          subtitle="Goods produced in the total system", 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }
 
@@ -136,13 +137,14 @@ plot_ggplot_smooth <- function(data_to_plot, timeframe) {
   data_to_plot %>%
     ggplot(aes(x = !!timeframe, 
                y = mean)) +
-    geom_smooth(aes(col=preset_scenario), span=0.1, se=FALSE) +
+    gl_plot_smooth +
     #scale_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Goods produced") + 
     labs(title="Goods produced in the system",
          subtitle="Goods produced in the total system (smoothed)", 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }
 
@@ -153,14 +155,14 @@ plot_ggplot_smooth_uncertainty <- function(data_to_plot, timeframe) {
   data_to_plot %>%
     ggplot(aes(x = !!timeframe, 
                y = mean)) +
-    geom_smooth(aes(col=preset_scenario), span=0.1, se=FALSE) +
-    geom_ribbon(aes(ymin = mean - std, ymax = mean + std,
-                    color= preset_scenario), alpha=0.1) +
+    gl_plot_smooth +
+    gl_plot_ribbon_std + 
     #scale_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab(paste(timeframe, "s", sep = "")) +
+    xlab(paste(toupper(substring(timeframe, 1,1)), substring(timeframe, 2), "s", sep = "")) +
     ylab("Goods produced") + 
     labs(title="Goods produced in the system",
-         subtitle="Goods produced in the total system (smoothed + uncertainty (std. dev.))))", 
+         subtitle="Goods produced in the total system (smoothed + uncertainty (std. dev.))", 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }

@@ -14,12 +14,12 @@ plotEcoInfected <- function(df_economy, output_dir, one_plot) {
   # Add days converted from ticks
   #df_economy$day <- dmfConvertTicksToDay(df_economy$tick)  
   
-  df_infected <- df_economy %>% select(tick, run_number, preset_scenario, infected = count_people_with_is_infected)
+  df_infected <- df_economy %>% select(tick, run_number, Scenario, infected = count_people_with_is_infected)
   
   #for uncertainty area
-  df_infected_mean_std <- df_economy %>% group_by(tick, preset_scenario) %>% summarise(
+  df_infected_mean_std <- df_economy %>% group_by(tick, Scenario) %>% summarise(
                                                                     mean = mean(count_people_with_is_infected)
-                                                                    ,std_mean = sd(count_people_with_is_infected))
+                                                                    ,std = sd(count_people_with_is_infected))
   
   print(paste(name, " writing CSV", sep=""))
   write.csv(df_infected, file=paste(output_dir, "/plot_data_", name, ".csv", sep=""))
@@ -55,13 +55,14 @@ plot_ggplot <- function(data_to_plot) {
   data_to_plot %>%
     ggplot(aes(x = tick, 
                y = measurement)) +
-    geom_line(size=0.5,alpha=0.8,aes(color=preset_scenario, group = run_number)) +
+    gl_plot_line +
     #continues_colour_brewer(palette = "Spectral", name="Infected") +
-    xlab("ticks") +
+    xlab("Ticks") +
     ylab("Infected") + 
     labs(title="Infected numbers",
          subtitle="Total number of people infected", 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }
 
@@ -70,13 +71,14 @@ plot_ggplot_smooth <- function(data_to_plot) {
   data_to_plot %>%
     ggplot(aes(x = tick, 
                y = measurement)) +
-    geom_smooth(aes(col=preset_scenario, group = run_number), span=0.1, se=FALSE) +
+    geom_smooth(aes(col=Scenario, group = run_number), span=0.1, se=FALSE) +
     #scale_colour_brewer(palette = "Spectral", name="Infected") +
     xlab("Ticks") +
     ylab("Infected") + 
     labs(title="Infected numbers",
          subtitle="Total number of people Infected (smoothed)", 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }
 
@@ -85,14 +87,14 @@ plot_ggplot_smooth_uncertainty <- function(data_to_plot) {
   data_to_plot %>%
     ggplot(aes(x = tick, 
                y = mean)) +
-    geom_smooth(aes(col=preset_scenario), span=0.1, se=FALSE) +
-    geom_ribbon(aes(ymin = mean - std_mean, ymax = mean + std_mean,
-                    color= preset_scenario), alpha=0.1) +
+    gl_plot_smooth +
+    gl_plot_ribbon_std + 
     #scale_colour_brewer(palette = "Spectral", name="Infected") +
     xlab("Ticks") +
     ylab("Infected") + 
     labs(title="Infected numbers",
          subtitle="Total number of people infected (smoothed with uncertainty (std. dev.))", 
          caption="Agent-based Social Simulation of Corona Crisis (ASSOCC)") +
+    scale_color_manual(values = gl_plot_colours) +
     gl_plot_guides + gl_plot_theme
 }
