@@ -48,7 +48,7 @@ to update-disease-status-assocc
  ;  if infection-status = "asymptomatic noncontagious" 
  ;   [
   ;    set infection-status "infected-asymptomatic"
-  ;    set duration-current-disease-status  asympomatic-contagiousness-to-symptomatic-contagiousness
+  ;    set duration-current-disease-status  asymptomatic-contagiousness-to-symptomatic-contagiousness
  ;     stop
  ;   ]
     

@@ -660,7 +660,7 @@ INPUTBOX
 122
 1796
 182
-asympomatic-contagiousness-to-symptomatic-contagiousness
+asymptomatic-contagiousness-to-symptomatic-contagiousness
 16.0
 1
 0
@@ -783,7 +783,7 @@ probability-unavoidable-death-old
 probability-unavoidable-death-old
 0
 1
-0.2
+0.15
 0.01
 1
 NIL
@@ -1201,7 +1201,7 @@ factor-reduction-probability-transmission-young
 factor-reduction-probability-transmission-young
 0
 1
-0.69
+0.73
 0.01
 1
 NIL
