@@ -1358,7 +1358,7 @@ ratio-population-randomly-tested-daily
 ratio-population-randomly-tested-daily
 0
 1
-0.0
+0.14
 0.01
 1
 NIL
@@ -3651,7 +3651,7 @@ SWITCH
 248
 log-contamination?
 log-contamination?
-1
+0
 1
 -1000
 
@@ -3743,10 +3743,10 @@ PENS
 "queuing" 1.0 0 -13345367 true "" "plot  #contacts-in-queuing"
 
 PLOT
-1777
-547
-2111
-722
+1787
+535
+2121
+710
 #people infected in
 NIL
 NIL
@@ -3765,17 +3765,17 @@ PENS
 "private-leisure" 1.0 0 -6459832 true "" "plot #people-infected-in-private-leisure"
 "schools" 1.0 0 -1184463 true "" "plot #people-infected-in-schools"
 "universities" 1.0 0 -10899396 true "" "plot #people-infected-in-universities"
-"e-shops" 1.0 0 -13840069 true "" "plot #people-infected-in-essential-shops"
-"ne-shops" 1.0 0 -14835848 true "" "plot #people-infected-in-non-essential-shops"
+"essential-shops" 1.0 0 -13840069 true "" "plot #people-infected-in-essential-shops"
+"non-essential-shops" 1.0 0 -14835848 true "" "plot #people-infected-in-non-essential-shops"
 "pub-trans" 1.0 0 -11221820 true "" "plot #people-infected-in-pubtrans"
 "priv-trans" 1.0 0 -13791810 true "" "plot #people-infected-in-shared-cars"
 "queuing" 1.0 0 -13345367 true "" "plot #people-infected-in-queuing"
 
 PLOT
-1778
-369
-2110
-549
+1791
+350
+2123
+530
 infection per age
 NIL
 NIL
@@ -3787,14 +3787,14 @@ true
 true
 "" ""
 PENS
-"R-Y" 1.0 0 -8053223 true "" "plot #cumulative-youngs-infected"
-"R-S" 1.0 0 -7171555 true "" "plot #cumulative-students-infected"
-"R-W" 1.0 0 -15040220 true "" "plot #cumulative-workers-infected"
-"R-R" 1.0 0 -13403783 true "" "plot #cumulative-retireds-infected"
-"S-Y" 1.0 0 -2139308 true "" "plot #cumulative-youngs-infector"
-"S-S" 1.0 0 -987046 true "" "plot #cumulative-students-infector"
-"S-W" 1.0 0 -8732573 true "" "plot #cumulative-workers-infector"
-"S-R" 1.0 0 -11033397 true "" "plot #cumulative-retireds-infector"
+"R-young" 1.0 0 -8053223 true "" "plot #cumulative-youngs-infected"
+"R-students" 1.0 0 -7171555 true "" "plot #cumulative-students-infected"
+"R-workers" 1.0 0 -15040220 true "" "plot #cumulative-workers-infected"
+"R-retired" 1.0 0 -13403783 true "" "plot #cumulative-retireds-infected"
+"S-young" 1.0 0 -2139308 true "" "plot #cumulative-youngs-infector"
+"S-students" 1.0 0 -987046 true "" "plot #cumulative-students-infector"
+"S-workers" 1.0 0 -8732573 true "" "plot #cumulative-workers-infector"
+"S-retired" 1.0 0 -11033397 true "" "plot #cumulative-retireds-infector"
 
 MONITOR
 2826
@@ -3814,7 +3814,7 @@ SWITCH
 247
 log-violating-quarantine?
 log-violating-quarantine?
-1
+0
 1
 -1000
 
