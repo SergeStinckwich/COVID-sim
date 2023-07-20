@@ -11,7 +11,9 @@ globals
   essential-shops
   non-essential-shops
 ]
+
 breed [gathering-points gathering-point]
+
 gathering-points-own [gathering-type
   available-food-rations ; rations of food that are available, this will be most useful for homes
   
@@ -26,9 +28,9 @@ gathering-points-own [gathering-type
   
 ]
 
-
 ;the head of the link are people and the tail are gathering points
 directed-link-breed [gathering-links gathering-link]
+
 gathering-links-own [
   features ;stores whatever is useful for decision-making, useful for including factors appealing to e.g. needs and values
 ]
@@ -158,7 +160,6 @@ to-report people-at-non-essential-shops
   report people with [[is-non-essential-shop?] of current-activity]
 end
 
-
 to-report my-school
   report one-of gathering-link-neighbors with [gathering-type = "school"]
 end
@@ -170,7 +171,6 @@ end
 to-report my-essential-shop
   report one-of gathering-link-neighbors with [is-essential-shop?]
 end
-
 
 to-report my-private-leisure
   report one-of gathering-link-neighbors with [is-private-leisure?]
@@ -288,8 +288,6 @@ end
 to-report  is-someone-officially-sick? 
   report any? people with [is-believing-to-be-infected?]   
 end
-
-
 
 to-report is-leisure-point?
   report is-public-leisure? or is-private-leisure?
