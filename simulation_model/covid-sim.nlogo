@@ -723,7 +723,7 @@ probability-self-recovery-symptoms
 probability-self-recovery-symptoms
 0
 1
-0.6
+0.61
 0.01
 1
 NIL
@@ -738,7 +738,7 @@ probability-recorvery-if-treated
 probability-recorvery-if-treated
 0
 1
-0.1
+0.08
 0.01
 1
 NIL
@@ -753,7 +753,7 @@ probability-self-recovery-symptoms-old
 probability-self-recovery-symptoms-old
 0
 1
-0.1
+0.11
 0.01
 1
 NIL
@@ -768,7 +768,7 @@ probability-recorvery-if-treated-old
 probability-recorvery-if-treated-old
 0
 1
-0.6
+0.62
 0.01
 1
 NIL
@@ -783,7 +783,7 @@ probability-unavoidable-death-old
 probability-unavoidable-death-old
 0
 1
-0.15
+0.16
 0.01
 1
 NIL
@@ -1043,7 +1043,7 @@ SWITCH
 108
 with-infected?
 with-infected?
-0
+1
 1
 -1000
 
@@ -1201,7 +1201,7 @@ factor-reduction-probability-transmission-young
 factor-reduction-probability-transmission-young
 0
 1
-0.73
+0.44
 0.01
 1
 NIL
@@ -1278,7 +1278,7 @@ ratio-tax-on-essential-shops
 ratio-tax-on-essential-shops
 0
 1
-0.76
+0.75
 0.01
 1
 NIL
@@ -1293,7 +1293,7 @@ ratio-tax-on-non-essential-shops
 ratio-tax-on-non-essential-shops
 0
 1
-0.85
+0.95
 0.01
 1
 NIL
@@ -1347,7 +1347,7 @@ CHOOSER
 household-profiles
 household-profiles
 "custom" "Belgium" "Canada" "Germany" "Great Britain" "France" "Italy" "Korea South" "Netherlands" "Norway" "Spain" "Singapore" "Sweden" "U.S.A."
-4
+10
 
 SLIDER
 2216
@@ -1480,7 +1480,7 @@ CHOOSER
 preset-scenario
 preset-scenario
 "default-scenario" "scenario-1-zero-action-scandinavia" "scenario-1-closing-schools-and-uni" "scenario-1-work-at-home-only" "scenario-1-closing-all" "scenario-3-random-test-20" "scenario-3-app-test-60" "scenario-3-app-test-80" "scenario-3-app-test-100" "economic-scenario-1-baseline" "economic-scenario-2-infections" "economic-scenario-3-lockdown" "economic-scenario-4-wages" "app-test-scenario-5-1K" "scenario-6-default" "no-action-scandinavia-2.5K" "one-family" "scenario-9-smart-testing" "scenario-7-cultural-model"
-1
+0
 
 MONITOR
 863
@@ -2483,7 +2483,7 @@ CHOOSER
 load-country-specific-settings
 load-country-specific-settings
 "Custom" "Belgium" "Canada" "Germany" "Great Britain" "France" "Italy" "Korea South" "Netherlands" "Norway" "Spain" "Singapore" "Sweden" "U.S.A."
-4
+9
 
 SLIDER
 2815
@@ -3087,7 +3087,7 @@ TEXTBOX
 13
 210
 55
-ASSOCC
+K-ASSOCC
 32
 14.0
 1

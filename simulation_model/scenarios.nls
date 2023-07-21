@@ -458,10 +458,9 @@ to load-population-profile-based-on-current-preset-profile
     set ratio-multi-generational-homes ratio-multi-generational-homes
     stop
   ]
-  
+
  let country-specific-data-list []
     file-open "country-specific-data.csv"
-  
 
   while [not file-at-end? ] [
     let csv file-read-line
@@ -470,7 +469,7 @@ to load-population-profile-based-on-current-preset-profile
     let mylist []  ; list of values 
     while [not empty? csv] 
     [
-      let $x position ";" csv 
+      let $x position ";" csv
       let $item substring csv 0 $x  ; extract item 
       carefully [set $item read-from-string $item][] ; convert if number 
       set mylist lput $item mylist  ; append to list 
@@ -490,8 +489,6 @@ to load-population-profile-based-on-current-preset-profile
   set country-specific-data-list but-first country-specific-data-list
   set ratio-multi-generational-homes first country-specific-data-list
   set country-specific-data-list but-first country-specific-data-list
-  
-
 end
 
 to load-default-agent-values-and-needs-parameters
