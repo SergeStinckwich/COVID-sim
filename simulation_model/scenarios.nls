@@ -478,7 +478,7 @@ to load-population-profile-based-on-current-preset-profile
     if first mylist = household-profiles [
       set country-specific-data-list but-first mylist ]
   ]
-  if empty? country-specific-data-list [error (sentence "Country is not in country-specific-data.csv file" household-profiles)]
+  if empty? country-specific-data-list [error (sentence household-profiles " is not in country-specific-data.csv file" )]
   file-close
   
   set ratio-adults-homes first country-specific-data-list
