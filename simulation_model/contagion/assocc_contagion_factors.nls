@@ -1,5 +1,4 @@
-to-report assocc-contagion-factor [infector infectee context]
-  ;report density-contagion-factor context
-  ;probability-getting-sick * density-travelling-propagation * contextual-contagion-modificators
-end
-  
+;;to-report assocc-contagion-factor [infector infectee context]
+;;  report density-contagion-factor context
+;;  probability-getting-sick * density-travelling-propagation * contextual-contagion-modificators
+;;end

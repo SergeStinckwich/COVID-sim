@@ -132,7 +132,7 @@ propagation-risk
 propagation-risk
 0
 1
-0.15
+0.11
 0.01
 1
 NIL
@@ -179,7 +179,7 @@ INPUTBOX
 918
 865
 #schools-gp
-12.0
+13.0
 1
 0
 Number
@@ -201,7 +201,7 @@ INPUTBOX
 1101
 865
 #workplaces-gp
-23.0
+27.0
 1
 0
 Number
@@ -222,7 +222,7 @@ INPUTBOX
 1214
 865
 #public-leisure-gp
-18.0
+20.0
 1
 0
 Number
@@ -233,7 +233,7 @@ INPUTBOX
 1334
 865
 #private-leisure-gp
-50.0
+57.0
 1
 0
 Number
@@ -409,7 +409,7 @@ INPUTBOX
 1451
 865
 #essential-shops-gp
-9.0
+10.0
 1
 0
 Number
@@ -450,7 +450,7 @@ INPUTBOX
 1578
 865
 #non-essential-shops-gp
-9.0
+10.0
 1
 0
 Number
@@ -708,7 +708,7 @@ probability-unavoidable-death
 probability-unavoidable-death
 0
 1
-0.1
+0.0
 0.01
 1
 NIL
@@ -723,7 +723,7 @@ probability-self-recovery-symptoms
 probability-self-recovery-symptoms
 0
 1
-0.61
+0.6
 0.01
 1
 NIL
@@ -738,7 +738,7 @@ probability-recorvery-if-treated
 probability-recorvery-if-treated
 0
 1
-0.08
+0.1
 0.01
 1
 NIL
@@ -753,7 +753,7 @@ probability-self-recovery-symptoms-old
 probability-self-recovery-symptoms-old
 0
 1
-0.11
+0.1
 0.01
 1
 NIL
@@ -768,7 +768,7 @@ probability-recorvery-if-treated-old
 probability-recorvery-if-treated-old
 0
 1
-0.62
+0.6
 0.01
 1
 NIL
@@ -783,7 +783,7 @@ probability-unavoidable-death-old
 probability-unavoidable-death-old
 0
 1
-0.16
+0.19
 0.01
 1
 NIL
@@ -1043,7 +1043,7 @@ SWITCH
 108
 with-infected?
 with-infected?
-1
+0
 1
 -1000
 
@@ -1078,7 +1078,7 @@ ratio-family-homes
 ratio-family-homes
 0
 1
-0.36
+0.371
 0.01
 1
 NIL
@@ -1156,7 +1156,7 @@ ratio-adults-homes
 ratio-adults-homes
 0
 1
-0.292
+0.278
 0.01
 1
 NIL
@@ -1171,7 +1171,7 @@ ratio-retired-couple-homes
 ratio-retired-couple-homes
 0
 1
-0.312
+0.315
 0.01
 1
 NIL
@@ -1278,7 +1278,7 @@ ratio-tax-on-essential-shops
 ratio-tax-on-essential-shops
 0
 1
-0.75
+0.76
 0.01
 1
 NIL
@@ -1293,7 +1293,7 @@ ratio-tax-on-non-essential-shops
 ratio-tax-on-non-essential-shops
 0
 1
-0.95
+0.85
 0.01
 1
 NIL
@@ -1346,8 +1346,8 @@ CHOOSER
 449
 household-profiles
 household-profiles
-"custom" "Belgium" "Canada" "Germany" "Great Britain" "France" "Italy" "Korea South" "Netherlands" "Norway" "Spain" "Singapore" "Sweden" "U.S.A."
-10
+"custom" "Belgium" "Canada" "Germany" "Great Britain" "France" "Italy" "Kenya" "Korea South" "Netherlands" "Norway" "Spain" "Singapore" "Sweden" "U.S.A."
+1
 
 SLIDER
 2216
@@ -1358,7 +1358,7 @@ ratio-population-randomly-tested-daily
 ratio-population-randomly-tested-daily
 0
 1
-0.14
+0.0
 0.01
 1
 NIL
@@ -1468,7 +1468,7 @@ SWITCH
 105
 static-seed?
 static-seed?
-1
+0
 1
 -1000
 
@@ -2006,7 +2006,7 @@ INPUTBOX
 2443
 102
 #beds-in-hospital
-11.0
+13.0
 1
 0
 Number
@@ -2243,7 +2243,7 @@ daily-risk-believe-experiencing-fake-symptoms
 daily-risk-believe-experiencing-fake-symptoms
 0
 1
-0.0
+0.03
 0.01
 1
 NIL
@@ -2375,7 +2375,7 @@ INPUTBOX
 3471
 748
 #bus-per-timeslot
-27.0
+31.0
 1
 0
 Number
@@ -2482,8 +2482,8 @@ CHOOSER
 105
 load-country-specific-settings
 load-country-specific-settings
-"Custom" "Belgium" "Canada" "Germany" "Great Britain" "France" "Italy" "Korea South" "Netherlands" "Norway" "Spain" "Singapore" "Sweden" "U.S.A."
-9
+"Custom" "Belgium" "Canada" "Germany" "Great Britain" "France" "Italy" "Kenya" "Korea South" "Netherlands" "Norway" "Spain" "Singapore" "Sweden" "U.S.A."
+1
 
 SLIDER
 2815
@@ -2494,7 +2494,7 @@ uncertainty-avoidance
 uncertainty-avoidance
 0
 100
-35.0
+94.0
 1
 1
 NIL
@@ -2509,7 +2509,7 @@ individualism-vs-collectivism
 individualism-vs-collectivism
 0
 100
-89.0
+75.0
 1
 1
 NIL
@@ -2524,7 +2524,7 @@ power-distance
 power-distance
 0
 100
-35.0
+65.0
 1
 1
 NIL
@@ -2539,7 +2539,7 @@ indulgence-vs-restraint
 indulgence-vs-restraint
 0
 100
-69.0
+57.0
 1
 1
 NIL
@@ -2554,7 +2554,7 @@ masculinity-vs-femininity
 masculinity-vs-femininity
 0
 100
-66.0
+54.0
 1
 1
 NIL
@@ -2569,7 +2569,7 @@ long-vs-short-termism
 long-vs-short-termism
 0
 100
-51.0
+82.0
 1
 1
 NIL
@@ -3488,7 +3488,7 @@ SWITCH
 1362
 all-self-isolate-for-35-days-when-first-hitting-2%-infected?
 all-self-isolate-for-35-days-when-first-hitting-2%-infected?
-0
+1
 1
 -1000
 
@@ -3651,7 +3651,7 @@ SWITCH
 248
 log-contamination?
 log-contamination?
-0
+1
 1
 -1000
 
@@ -3683,7 +3683,7 @@ SWITCH
 327
 log-setup?
 log-setup?
-0
+1
 1
 -1000
 
@@ -4084,7 +4084,7 @@ SWITCH
 326
 log-transactions?
 log-transactions?
-0
+1
 1
 -1000
 
@@ -4189,7 +4189,7 @@ CHOOSER
 trigger-curfew-when
 trigger-curfew-when
 "never" "after-lockdown" "35-days-after-start-lockdown"
-1
+0
 
 MONITOR
 1623
